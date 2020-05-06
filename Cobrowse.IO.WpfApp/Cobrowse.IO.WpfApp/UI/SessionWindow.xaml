@@ -1,0 +1,39 @@
+﻿<Window x:Class="Cobrowse.IO.WpfApp.UI.SessionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Cobrowse.IO.WpfApp.ViewModel"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed"
+        ResizeMode="NoResize"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        WindowStartupLocation="CenterOwner"
+        Title="Screen Sharing" Width="320" Height="240" d:DataContext="{d:DesignInstance Type=viewModel:SessionViewModel}">
+
+  <Window.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+  </Window.Resources>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="60"/>
+    </Grid.RowDefinitions>
+    
+    <TextBlock Grid.Row="0" Text="{Binding Session.Code}" FontFamily="Segoe UI Light" FontSize="32" HorizontalAlignment="Center" Margin="16"
+               Visibility="{Binding IsCodeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    
+    <TextBlock Grid.Row="1" Text="{Binding Message}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center"/>
+    
+    <Button Grid.Row="2" Content="{Binding ButtonText}" Command="{Binding CommandSessionStep}"
+            Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            VerticalAlignment="Center" Margin="16" Padding="4"/>
+    
+    <ProgressBar Grid.Row="2" Margin="8,24" IsIndeterminate="True"
+                 Visibility="{Binding IsProgressVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+  </Grid>
+</Window>
