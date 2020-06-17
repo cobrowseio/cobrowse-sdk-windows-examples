@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:Cobrowse.IO.WpfApp.ViewModel"
+        xmlns:io="clr-namespace:Cobrowse.IO;assembly=Cobrowse.IO"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Closed="Window_Closed"
@@ -24,7 +25,8 @@
       <RowDefinition Height="60"/>
     </Grid.RowDefinitions>
     
-    <TextBlock Grid.Row="0" Text="{Binding Session.Code}" FontFamily="Segoe UI Light" FontSize="32" HorizontalAlignment="Center" Margin="16"
+    <TextBlock Grid.Row="0" Text="{Binding Source={x:Static io:CobrowseIO.Instance}, Path=CurrentSession.Code}"
+               FontFamily="Segoe UI Light" FontSize="32" HorizontalAlignment="Center" Margin="16"
                Visibility="{Binding IsCodeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     
     <TextBlock Grid.Row="1" Text="{Binding Message}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center"/>

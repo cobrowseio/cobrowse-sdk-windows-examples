@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using Cobrowse.IO.WpfApp.UI;
@@ -18,11 +19,14 @@ namespace Cobrowse.IO.WpfApp.ViewModel
 
       CobrowseIO.Instance.License = CobrowseIO.Instance.License = licenseKey;
 
-      DeviceId = CobrowseIO.Instance.Device.DeviceId;
+      DeviceId = CobrowseIO.Instance.DeviceId;
 
-      CobrowseIO.Instance.Device.CustomData.Add("user_name", "Test User");
-      CobrowseIO.Instance.Device.CustomData.Add("user_email", "example@testmail.com");
-      CobrowseIO.Instance.Device.CustomData.Add("device_name", "WPF Device");
+      CobrowseIO.Instance.CustomData = new Dictionary<string, object>()
+      {
+        { CobrowseIO.USER_NAME_KEY, "Test User" },
+        { CobrowseIO.USER_EMAIL_KEY, "example@testmail.com" },
+        { CobrowseIO.DEVICE_NAME_KEY, "WPF Device" },
+      };
     }
 
     public MainWindow Window { get; }
@@ -43,8 +47,8 @@ namespace Cobrowse.IO.WpfApp.ViewModel
 
     private void CommandStart_Execute()
     {
-      SessionViewModel vm = new SessionViewModel(Window);
-      vm.Start();
+      using (SessionViewModel vm = new SessionViewModel(Window))
+        vm.Start();
     }
 
     #endregion

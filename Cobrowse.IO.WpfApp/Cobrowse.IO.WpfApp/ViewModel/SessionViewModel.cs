@@ -8,9 +8,8 @@ using Cobrowse.IO.WpfApp.UI;
 
 namespace Cobrowse.IO.WpfApp.ViewModel
 {
-  class SessionViewModel: INotifyPropertyChanged
+  class SessionViewModel: INotifyPropertyChanged, IDisposable
   {
-    private Session session;
     private UIState state;
 
     public SessionViewModel(Window ownerWindow)
@@ -30,18 +29,35 @@ namespace Cobrowse.IO.WpfApp.ViewModel
       {
         await CobrowseIO.Instance.Start();
 
-        Session = await CobrowseIO.Instance.CreateSession();
-        session.Started += s => State = UIState.Active;
-        session.AuthorizationRequired += s => State = UIState.Authorizing;
-        session.Ended += s => State = UIState.Closed;
+        CobrowseIO.Instance.SessionEnded += OnSessionEnded;
+        CobrowseIO.Instance.SessionAuthorizing += OnSessionAuthorizing;
+        CobrowseIO.Instance.SessionUpdated += OnSessionUpdated;
+
+        await CobrowseIO.Instance.CreateSession();
 
         State = UIState.Pending;
       }
       catch (Exception e)
       {
+        MessageBox.Show(Window, $"[{e.GetType().Name}]:\n{e.Message}\n{e.StackTrace}", "Unable to Start", MessageBoxButton.OK, MessageBoxImage.Error);
         Window.Close();
-        return;
       }
+    }
+
+    private void OnSessionUpdated(Session s)
+    {
+      if (s.State == SessionState.Active)
+        State = UIState.Active;
+    }
+
+    private void OnSessionAuthorizing(Session s)
+    {
+      State = UIState.Authorizing;
+    }
+
+    private void OnSessionEnded(Session s)
+    {
+      State = UIState.Closed;
     }
 
     public void Close()
@@ -95,16 +111,6 @@ namespace Cobrowse.IO.WpfApp.ViewModel
     }
 
     public SessionWindow Window { get; }
-
-    public Session Session
-    {
-      get { return session; }
-      private set
-      {
-        session = value;
-        OnPropertyChanged();
-      }
-    }
 
     public string ButtonText
     {
@@ -165,20 +171,27 @@ namespace Cobrowse.IO.WpfApp.ViewModel
 
     private async void CommandSessionStep_Execute()
     {
-      switch (Session.State)
+      switch (CobrowseIO.Instance.CurrentSession.State)
       {
-        case SessionState.Pending:
-          await Session.SetAuthorizing();
-          break;
-
         case SessionState.Authorizing:
-          await Session.Activate();
+          await CobrowseIO.Instance.CurrentSession.Activate();
           break;
 
         case SessionState.Active:
-          await Session.End();
+          await CobrowseIO.Instance.CurrentSession.End();
           break;
       }
+    }
+
+    #endregion
+
+    #region IDisposable
+
+    public void Dispose()
+    {
+      CobrowseIO.Instance.SessionEnded -= OnSessionEnded;
+      CobrowseIO.Instance.SessionAuthorizing -= OnSessionAuthorizing;
+      CobrowseIO.Instance.SessionUpdated -= OnSessionUpdated;
     }
 
     #endregion
