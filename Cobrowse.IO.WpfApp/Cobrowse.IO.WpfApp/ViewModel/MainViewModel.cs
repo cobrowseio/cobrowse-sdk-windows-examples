@@ -23,9 +23,9 @@ namespace Cobrowse.IO.WpfApp.ViewModel
 
       CobrowseIO.Instance.CustomData = new Dictionary<string, object>()
       {
-        { CobrowseIO.USER_NAME_KEY, "Test User" },
-        { CobrowseIO.USER_EMAIL_KEY, "example@testmail.com" },
-        { CobrowseIO.DEVICE_NAME_KEY, "WPF Device" },
+        { CobrowseIO.UserNameKey, "Test User" },
+        { CobrowseIO.UserEmailKey, "example@testmail.com" },
+        { CobrowseIO.DeviceNameKey, "WPF Device" },
       };
     }
 
