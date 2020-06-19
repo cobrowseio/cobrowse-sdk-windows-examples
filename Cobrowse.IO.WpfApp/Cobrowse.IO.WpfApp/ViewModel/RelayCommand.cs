@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 
-using EventArgs = System.EventArgs;
-
 namespace Cobrowse.IO.WpfApp.ViewModel
 {
   class RelayCommand: ICommand
