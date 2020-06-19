@@ -1,0 +1,47 @@
+﻿<Window x:Class="Cobrowse.IO.Screenshare.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:io="clr-namespace:Cobrowse.IO;assembly=Cobrowse.IO"
+        xmlns:viewModel="clr-namespace:Cobrowse.IO.Screenshare.ViewModel"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        ResizeMode="NoResize"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        WindowStartupLocation="CenterScreen"
+        IsEnabled="{Binding IsWindowEnabled}"
+        Title="Screen Sharing" Width="320" Height="240" d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}">
+
+  <Window.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+  </Window.Resources>
+
+  <Window.TaskbarItemInfo>
+    <TaskbarItemInfo ProgressState="{Binding TaskbarItemProgressState}"/>
+  </Window.TaskbarItemInfo>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="60"/>
+    </Grid.RowDefinitions>
+
+    <TextBox Grid.Row="0" Text="{Binding Source={x:Static io:CobrowseIO.Instance}, Path=CurrentSession.Code, Mode=OneWay}"
+             FontFamily="Segoe UI Light" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"
+             Margin="16" IsReadOnly="True" BorderThickness="0"
+             Visibility="{Binding IsCodeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+    <TextBlock Grid.Row="1" Text="{Binding Message}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center"/>
+
+    <Button Grid.Row="2" Content="{Binding ButtonText}" Command="{Binding CommandSessionStep}"
+            Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            VerticalAlignment="Center" Margin="16" Padding="4"/>
+
+    <ProgressBar Grid.Row="2" Margin="8,24" IsIndeterminate="True"
+                 Visibility="{Binding IsProgressVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+  </Grid>
+</Window>
