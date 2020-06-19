@@ -1,6 +1,10 @@
-# Cobrowse SDK Windows Examples
+# Cobrowse.io SDK Windows Examples
 
-## Startup
+This repo contains examples of Cobrowse.io usage.
+
+## WPF Example
+
+This is just an example of using Cobrowse.io Windows SDK with WPF.
 
 To run the example app, you will need to feed it with your Cobrowse.io license key with first command line argument.
 
@@ -14,19 +18,33 @@ Cobrowse.IO.WpfApp.exe <put-license-here>
 
 Put your license key (alone) to *Command line arguments* of *Debug* section of project settings.
 
-## Known Problems
+## Standalone App
 
-### HiDPI
+Standalone app is used to start Cobrowse.io screensharing sessions in separate process. 
 
-Due to some strange behavior of MS Win10 in HiDPI mode (when display scale is not 100%) you may see black screen in screensharing session. This occurs at first start
-of the client app from certain location and will be autofixed after restart from same directory.
+### Building
 
-To avoid this your application should be "DPI aware" and should tell the system about it. To enable this add `app.manifest` ("New item" -> "Application Manifest File" in Visual Studio) and add/uncomment the following XML tag:
+You can build the standalone screensharing app with Visual Studio 2017 or later.
 
-```XML
-  <application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
-    </windowsSettings>
-  </application>
+Before using you must provide a Cobrowse.io license key to the app. To do this replace `LicenseKey` constant in [MainViewModel.Consts.cs](https://github.com/cobrowseio/cobrowse-sdk-windows-examples/blob/master/Cobrowse.IO.Standalone/Cobrowse.IO.Standalone/ViewModel/MainViewModel.Consts.cs).
+
+You may also provide some metadata to identify the device to `CustomData`.
+
+### Usage
+
+How to run standalone screensharing app:
+
+```csharp
+public bool StartCobrowse()
+{
+  try
+  {
+    Process.Start(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Cobrowse.IO.Standalone.exe"));
+    return true;
+  }
+  catch
+  {
+    return false;
+  }
+}
 ```
