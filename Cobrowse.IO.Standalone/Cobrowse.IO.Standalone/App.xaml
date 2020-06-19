@@ -1,4 +1,4 @@
-﻿<Application x:Class="Cobrowse.IO.Screenshare.App"
+﻿<Application x:Class="Cobrowse.IO.Standalone.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Application.Resources>

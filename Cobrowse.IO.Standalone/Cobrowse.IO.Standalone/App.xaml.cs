@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Windows;
+﻿using System.Windows;
 
-using Cobrowse.IO.Screenshare.ViewModel;
+using Cobrowse.IO.Standalone.ViewModel;
 
-namespace Cobrowse.IO.Screenshare
+namespace Cobrowse.IO.Standalone
 {
   /// <summary>
   /// Interaction logic for App.xaml

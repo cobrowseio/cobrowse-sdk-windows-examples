@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Cobrowse.IO.Screenshare.ViewModel
+namespace Cobrowse.IO.Standalone.ViewModel
 {
   class RelayCommand: ICommand
   {

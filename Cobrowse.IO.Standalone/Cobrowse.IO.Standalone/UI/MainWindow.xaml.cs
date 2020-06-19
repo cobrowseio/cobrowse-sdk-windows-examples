@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-using Cobrowse.IO.Screenshare.ViewModel;
+using Cobrowse.IO.Standalone.ViewModel;
 
-namespace Cobrowse.IO.Screenshare.UI
+namespace Cobrowse.IO.Standalone.UI
 {
   /// <summary>
   /// Interaction logic for MainWindow.xaml

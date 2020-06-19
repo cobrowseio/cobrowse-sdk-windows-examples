@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
 
-using Cobrowse.IO.Screenshare.UI;
+using Cobrowse.IO.Standalone.UI;
 
-namespace Cobrowse.IO.Screenshare.ViewModel
+namespace Cobrowse.IO.Standalone.ViewModel
 {
   partial class MainViewModel: INotifyPropertyChanged
   {
