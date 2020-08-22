@@ -17,25 +17,42 @@
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
   </Window.Resources>
-  
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition/>
       <RowDefinition Height="60"/>
     </Grid.RowDefinitions>
-    
-    <TextBlock Grid.Row="0" Text="{Binding Source={x:Static io:CobrowseIO.Instance}, Path=CurrentSession.Code}"
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+
+    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               Text="{Binding Source={x:Static io:CobrowseIO.Instance}, Path=CurrentSession.Code}"
                FontFamily="Segoe UI Light" FontSize="32" HorizontalAlignment="Center" Margin="16"
                Visibility="{Binding IsCodeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-    
-    <TextBlock Grid.Row="1" Text="{Binding Message}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center"/>
-    
-    <Button Grid.Row="2" Content="{Binding ButtonText}" Command="{Binding CommandSessionStep}"
+
+    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+               Text="{Binding Message}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center"/>
+
+    <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+            Content="{Binding ButtonText}" Command="{Binding CommandSessionStep}"
             Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
             VerticalAlignment="Center" Margin="16" Padding="4"/>
-    
-    <ProgressBar Grid.Row="2" Margin="8,24" IsIndeterminate="True"
+
+    <Button Grid.Row="2" Grid.Column="0" 
+            Content="Accept" Command="{Binding CommandAcceptRemoteControl}"
+            Visibility="{Binding AreRemoteControlButtonsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            VerticalAlignment="Center" Margin="16" Padding="4"/>
+    <Button Grid.Row="2" Grid.Column="1" 
+            Content="Reject" Command="{Binding CommandRejectRemoteControl}"
+            Visibility="{Binding AreRemoteControlButtonsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            VerticalAlignment="Center" Margin="16" Padding="4"/>
+
+    <ProgressBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                 Margin="8,24" IsIndeterminate="True"
                  Visibility="{Binding IsProgressVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
   </Grid>
 </Window>

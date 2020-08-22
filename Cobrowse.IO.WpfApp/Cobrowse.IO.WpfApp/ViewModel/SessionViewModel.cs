@@ -8,13 +8,15 @@ using Cobrowse.IO.WpfApp.UI;
 
 namespace Cobrowse.IO.WpfApp.ViewModel
 {
-  class SessionViewModel: INotifyPropertyChanged, IDisposable
+  class SessionViewModel : INotifyPropertyChanged, IDisposable
   {
     private UIState state;
 
     public SessionViewModel(Window ownerWindow)
     {
       CommandSessionStep = new RelayCommand(CommandSessionStep_Execute);
+      CommandAcceptRemoteControl = new RelayCommand(CommandAcceptRemoteControl_Execute);
+      CommandRejectRemoteControl = new RelayCommand(CommandRejectRemoteControl_Execute);
 
       Window = new SessionWindow()
       {
@@ -32,6 +34,7 @@ namespace Cobrowse.IO.WpfApp.ViewModel
         CobrowseIO.Instance.SessionEnded += OnSessionEnded;
         CobrowseIO.Instance.SessionAuthorizing += OnSessionAuthorizing;
         CobrowseIO.Instance.SessionUpdated += OnSessionUpdated;
+        CobrowseIO.Instance.SessionRemoteControlRequested += OnSessionRemoteControlRequested;
 
         await CobrowseIO.Instance.CreateSession();
 
@@ -60,6 +63,11 @@ namespace Cobrowse.IO.WpfApp.ViewModel
       State = UIState.Closed;
     }
 
+    private void OnSessionRemoteControlRequested(Session s)
+    {
+      State = UIState.RemoteControlRequested;
+    }
+
     public void Close()
     {
       State = UIState.Closed;
@@ -81,6 +89,7 @@ namespace Cobrowse.IO.WpfApp.ViewModel
         OnPropertyChanged(nameof(IsButtonVisible));
         OnPropertyChanged(nameof(Message));
         OnPropertyChanged(nameof(ButtonText));
+        OnPropertyChanged(nameof(AreRemoteControlButtonsVisible));
 
         if (state == UIState.Closed)
         {
@@ -102,7 +111,12 @@ namespace Cobrowse.IO.WpfApp.ViewModel
 
     public bool IsButtonVisible
     {
-      get { return state >= UIState.Authorizing && state != UIState.Closed; }
+      get { return state >= UIState.Authorizing && state != UIState.Closed && state != UIState.RemoteControlRequested; }
+    }
+
+    public bool AreRemoteControlButtonsVisible
+    {
+      get { return state == UIState.RemoteControlRequested; }
     }
 
     public void Start()
@@ -145,6 +159,9 @@ namespace Cobrowse.IO.WpfApp.ViewModel
           case UIState.Authorizing:
             return "Press a button to authorize screenshare";
 
+          case UIState.RemoteControlRequested:
+            return "Do you want to accept\nthe device remote control?";
+
           case UIState.Active:
             return "Screenshare is active";
 
@@ -168,6 +185,8 @@ namespace Cobrowse.IO.WpfApp.ViewModel
     #region Commands
 
     public RelayCommand CommandSessionStep { get; }
+    public RelayCommand CommandAcceptRemoteControl { get; }
+    public RelayCommand CommandRejectRemoteControl { get; }
 
     private async void CommandSessionStep_Execute()
     {
@@ -183,6 +202,16 @@ namespace Cobrowse.IO.WpfApp.ViewModel
       }
     }
 
+    private async void CommandAcceptRemoteControl_Execute()
+    {
+      await CobrowseIO.Instance.CurrentSession.AcceptRemoteControl();
+    }
+
+    private async void CommandRejectRemoteControl_Execute()
+    {
+      await CobrowseIO.Instance.CurrentSession.RejectRemoteControl();
+    }
+
     #endregion
 
     #region IDisposable
@@ -192,6 +221,7 @@ namespace Cobrowse.IO.WpfApp.ViewModel
       CobrowseIO.Instance.SessionEnded -= OnSessionEnded;
       CobrowseIO.Instance.SessionAuthorizing -= OnSessionAuthorizing;
       CobrowseIO.Instance.SessionUpdated -= OnSessionUpdated;
+      CobrowseIO.Instance.SessionRemoteControlRequested -= OnSessionRemoteControlRequested;
     }
 
     #endregion
@@ -202,6 +232,7 @@ namespace Cobrowse.IO.WpfApp.ViewModel
       Pending,
       Authorizing,
       Active,
+      RemoteControlRequested,
       Closed,
     }
   }
