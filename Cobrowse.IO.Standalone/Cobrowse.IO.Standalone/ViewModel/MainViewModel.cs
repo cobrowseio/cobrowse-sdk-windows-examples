@@ -19,6 +19,8 @@ namespace Cobrowse.IO.Standalone.ViewModel
       CobrowseIO.Instance.CustomData = CustomData;
 
       CommandSessionStep = new RelayCommand(CommandSessionStep_Execute);
+      CommandAcceptRemoteControl = new RelayCommand(CommandAcceptRemoteControl_Execute);
+      CommandRejectRemoteControl = new RelayCommand(CommandRejectRemoteControl_Execute);
 
       Window = new MainWindow()
       {
@@ -37,6 +39,7 @@ namespace Cobrowse.IO.Standalone.ViewModel
         CobrowseIO.Instance.SessionEnded += s => State = UIState.Closing;
         CobrowseIO.Instance.SessionAuthorizing += s => State = UIState.Authorizing;
         CobrowseIO.Instance.SessionUpdated += OnSessionUpdated;
+        CobrowseIO.Instance.SessionRemoteControlRequested += s => State = UIState.RemoteControlRequested;
 
         await CobrowseIO.Instance.CreateSession();
 
@@ -90,6 +93,7 @@ namespace Cobrowse.IO.Standalone.ViewModel
         OnPropertyChanged(nameof(Message));
         OnPropertyChanged(nameof(ButtonText));
         OnPropertyChanged(nameof(IsWindowEnabled));
+        OnPropertyChanged(nameof(AreRemoteControlButtonsVisible));
 
         if (state == UIState.Closing)
           Task.Run(CloseCobrowse);
@@ -116,7 +120,12 @@ namespace Cobrowse.IO.Standalone.ViewModel
 
     public bool IsButtonVisible
     {
-      get { return state >= UIState.Authorizing && state < UIState.Closing; }
+      get { return state >= UIState.Authorizing && state != UIState.Closed && state != UIState.RemoteControlRequested; }
+    }
+
+    public bool AreRemoteControlButtonsVisible
+    {
+      get { return state == UIState.RemoteControlRequested; }
     }
 
     public bool IsWindowEnabled
@@ -157,6 +166,9 @@ namespace Cobrowse.IO.Standalone.ViewModel
           case UIState.Authorizing:
             return "Press a button to authorize screenshare";
 
+          case UIState.RemoteControlRequested:
+            return "Do you want to accept\nthe device remote control?";
+
           case UIState.Active:
             return "Screenshare is active";
 
@@ -169,6 +181,8 @@ namespace Cobrowse.IO.Standalone.ViewModel
     #region Commands
 
     public RelayCommand CommandSessionStep { get; }
+    public RelayCommand CommandAcceptRemoteControl { get; }
+    public RelayCommand CommandRejectRemoteControl { get; }
 
     private async void CommandSessionStep_Execute()
     {
@@ -182,6 +196,16 @@ namespace Cobrowse.IO.Standalone.ViewModel
           await CobrowseIO.Instance.CurrentSession.End();
           break;
       }
+    }
+
+    private async void CommandAcceptRemoteControl_Execute()
+    {
+      await CobrowseIO.Instance.CurrentSession.AcceptRemoteControl();
+    }
+
+    private async void CommandRejectRemoteControl_Execute()
+    {
+      await CobrowseIO.Instance.CurrentSession.RejectRemoteControl();
     }
 
     #endregion
@@ -203,6 +227,7 @@ namespace Cobrowse.IO.Standalone.ViewModel
       Pending,
       Authorizing,
       Active,
+      RemoteControlRequested,
       Closing,
       Closed,
     }
