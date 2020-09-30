@@ -45,6 +45,9 @@ namespace Cobrowse.IO.Standalone.ViewModel
         CobrowseIO.Instance.SessionUpdated += OnSessionUpdated;
         CobrowseIO.Instance.SessionRemoteControlRequested += s => State = UIState.RemoteControlRequested;
 
+        if (Settings.Instance.HideSessionControls)
+          CobrowseIO.Instance.SessionControlsUpdated += f => { };
+
         await CobrowseIO.Instance.CreateSession();
 
         State = UIState.Pending;
