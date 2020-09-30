@@ -38,7 +38,9 @@ The application settings are defined in `cobrowse.io.settings.json` file.
 
 ### Usage
 
-How to run standalone screensharing app:
+After configuring the license and additional client info, you can run it as usual `.exe` file with double click in explorer, or programmatically.
+
+Here is C# template code:
 
 ```csharp
 public bool StartCobrowse()
