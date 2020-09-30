@@ -24,11 +24,17 @@ Standalone app is used to start Cobrowse.io screensharing sessions in separate p
 
 ### Building
 
-You can build the standalone screensharing app with Visual Studio 2017 or later.
+You can build the standalone screensharing app with Visual Studio 2017 or later. Be sure that NuGet restore is performed on build.
 
-Before using you must provide a Cobrowse.io license key to the app. To do this replace `License` constant in [MainViewModel.Consts.cs](https://github.com/cobrowseio/cobrowse-sdk-windows-examples/blob/master/Cobrowse.IO.Standalone/Cobrowse.IO.Standalone/ViewModel/MainViewModel.Consts.cs).
+Before using, you must provide a license obtained from [cobrowse.io](https://cobrowse.io/) site. See "Configuration" section.
 
-You may also provide some metadata to identify the device to `CustomData`.
+### Configuration
+
+The application settings are defined in `cobrowse.io.settings.json` file.
+
+* `license` - put your license code here. This is required.
+* `hideSessionControls` - this boolean variable allows to enable/disable the session activity controls for active display (red outline).
+* `customData` - allows to set custom information about a device to identify it.
 
 ### Usage
 
