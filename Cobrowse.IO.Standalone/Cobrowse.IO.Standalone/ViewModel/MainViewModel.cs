@@ -5,18 +5,22 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
 
+using Cobrowse.IO.Standalone.Model;
 using Cobrowse.IO.Standalone.UI;
 
 namespace Cobrowse.IO.Standalone.ViewModel
 {
-  partial class MainViewModel: INotifyPropertyChanged
+  class MainViewModel: INotifyPropertyChanged
   {
     private UIState state;
 
     public MainViewModel()
     {
-      CobrowseIO.Instance.License = License;
-      CobrowseIO.Instance.CustomData = CustomData;
+      CobrowseIO.Instance.License = Settings.Instance.License;
+      if (Settings.Instance.ApiUrl != null)
+        CobrowseIO.Instance.Api = new Uri(Settings.Instance.ApiUrl);
+
+      CobrowseIO.Instance.CustomData = Settings.Instance.CustomData;
 
       CommandSessionStep = new RelayCommand(CommandSessionStep_Execute);
       CommandAcceptRemoteControl = new RelayCommand(CommandAcceptRemoteControl_Execute);

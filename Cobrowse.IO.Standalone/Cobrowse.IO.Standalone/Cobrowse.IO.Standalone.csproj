@@ -89,7 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\MainViewModel.Consts.cs" />
+    <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Page Include="UI\MainWindow.xaml">
@@ -125,6 +125,9 @@
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="cobrowse.io.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

@@ -1,0 +1,10 @@
+{
+  "license" : "trial",
+  /* "apiUrl": "https://api.cobrowse.io", used to override the Cobrowse.IO API endpoint */
+  "hideSessionControls": "true",
+  "customData" : {
+    "device_name" : "Custom device",
+    "device_id":  "A device id"
+    /* well-known data fields are: user_id, user_name, user_email, device_id and device_name */
+  }
+}
