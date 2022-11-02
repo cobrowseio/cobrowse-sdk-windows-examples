@@ -68,7 +68,7 @@ jobs:
           });
 
           // https://octokit.github.io/rest.js/v19#repos-create-release#repos-upload-release-asset
-          const uploadAsset = await github.rest.repos.uploadReleaseAsset({
+          const uploadAsset1 = await github.rest.repos.uploadReleaseAsset({
             owner: context.repo.owner,
             repo: context.repo.repo,
             release_id: release.data.id,
@@ -76,7 +76,7 @@ jobs:
             data: await fs.readFile('Cobrowse.IO.Standalone.zip')
           });
           // https://octokit.github.io/rest.js/v19#repos-create-release#repos-upload-release-asset
-          const uploadAsset = await github.rest.repos.uploadReleaseAsset({
+          const uploadAsset2 = await github.rest.repos.uploadReleaseAsset({
             owner: context.repo.owner,
             repo: context.repo.repo,
             release_id: release.data.id,
