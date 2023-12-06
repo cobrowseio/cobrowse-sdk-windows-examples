@@ -23,21 +23,25 @@ jobs:
       run: |
         msbuild .\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone.sln -t:restore -p:RestorePackagesConfig=true
         msbuild .\Cobrowse.IO.WpfApp\CobrowseIO.WpfApp.sln -t:restore -p:RestorePackagesConfig=true
+        msbuild .\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp.sln -t:restore -p:RestorePackagesConfig=true
 
     - name: Build debug
       run: |
         msbuild .\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone.sln -t:build -p:Configuration=Debug
         msbuild .\Cobrowse.IO.WpfApp\CobrowseIO.WpfApp.sln -t:build -p:Configuration=Debug
+        msbuild .\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp.sln -t:build -p:Configuration=Debug
 
     - name: Build release
       run: |
         msbuild .\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone.sln -t:build -p:Configuration=Release
         msbuild .\Cobrowse.IO.WpfApp\CobrowseIO.WpfApp.sln -t:build -p:Configuration=Release
+        msbuild .\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp.sln -t:build -p:Configuration=Release
 
     - name: Create archives
       run: |
         Compress-Archive -Path .\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\CBOR.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\Cobrowse.IO.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\cobrowse.io.settings.json,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\Cobrowse.IO.Standalone.exe,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\Cobrowse.IO.Standalone.exe.config,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\Newtonsoft.Json.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\Numbers.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\openh264-2.1.1-win32.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\openh264-2.1.1-win64.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\openh264-license.txt,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\OpenH264.NET.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\RestSharp.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\SharpDX.Direct3D11.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\SharpDX.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\SharpDX.DXGI.dll,.\Cobrowse.IO.Standalone\Cobrowse.IO.Standalone\bin\Release\URIUtility.dll -DestinationPath Cobrowse.IO.Standalone.zip
         Compress-Archive -Path .\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\CBOR.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\Cobrowse.IO.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\Cobrowse.IO.WpfApp.exe,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\Cobrowse.IO.WpfApp.exe.config,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\Newtonsoft.Json.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\Numbers.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\openh264-2.1.1-win32.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\openh264-2.1.1-win64.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\openh264-license.txt,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\OpenH264.NET.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\RestSharp.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\SharpDX.Direct3D11.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\SharpDX.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\SharpDX.DXGI.dll,.\Cobrowse.IO.WpfApp\Cobrowse.IO.WpfApp\bin\Release\URIUtility.dll -DestinationPath Cobrowse.IO.WpfApp.zip
+        Compress-Archive -Path .\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\CBOR.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Cobrowse.IO.ConsoleApp.exe,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Cobrowse.IO.ConsoleApp.exe.config,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Cobrowse.IO.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Newtonsoft.Json.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Numbers.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\openh264-2.1.1-win32.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\openh264-2.1.1-win64.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\openh264-license.txt,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\OpenH264.NET.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\RestSharp.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.Direct2D1.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.Direct3D11.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.DXGI.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\URIUtility.dll -DestinationPath Cobrowse.IO.ConsoleApp.zip
 
     - name: Copy archive to artifacts
       uses: actions/upload-artifact@v3
@@ -45,5 +49,6 @@ jobs:
         path: |
           Cobrowse.IO.Standalone.zip
           Cobrowse.IO.WpfApp.zip
+          Cobrowse.IO.ConsoleApp.zip
         retention-days: 7
         if-no-files-found: error
