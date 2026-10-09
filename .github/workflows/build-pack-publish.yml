@@ -16,11 +16,14 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
 
     # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d # v1.0.2
+
+    - name: Install .NET Framework 4.6 targeting pack
+      run: choco install netfx-4.6-devpack --no-progress -y
 
     - name: Restore dependencies
       run: |
@@ -47,7 +50,7 @@ jobs:
         Compress-Archive -Path .\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\CBOR.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Cobrowse.IO.ConsoleApp.exe,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Cobrowse.IO.ConsoleApp.exe.config,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Cobrowse.IO.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Newtonsoft.Json.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\Numbers.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\openh264-2.1.1-win32.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\openh264-2.1.1-win64.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\openh264-license.txt,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\OpenH264.NET.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\RestSharp.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.Direct2D1.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.Direct3D11.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\SharpDX.DXGI.dll,.\Cobrowse.IO.ConsoleApp\Cobrowse.IO.ConsoleApp\bin\Release\URIUtility.dll -DestinationPath Cobrowse.IO.ConsoleApp.zip
 
     - name: Copy archive to artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       with:
         path: |
           Cobrowse.IO.Standalone.zip
@@ -57,7 +60,7 @@ jobs:
         if-no-files-found: error
 
     - name: Create Github release
-      uses: actions/github-script@v6
+      uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         script: |
