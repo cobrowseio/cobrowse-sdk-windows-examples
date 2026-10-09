@@ -16,11 +16,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d # v1.0.2
+      uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57 # v3.0.0
 
     - name: Install .NET Framework 4.6 targeting pack
       run: choco install netfx-4.6-devpack --no-progress -y
@@ -60,7 +60,7 @@ jobs:
         if-no-files-found: error
 
     - name: Create Github release
-      uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
       if: startsWith(github.ref, 'refs/tags/')
       with:
         script: |
